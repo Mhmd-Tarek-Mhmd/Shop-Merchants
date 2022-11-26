@@ -8,6 +8,8 @@ import "@fontsource/roboto/700.css";
 
 import App from "./components/app";
 
+import store from "./store";
+
 render(
   <Provider store={store}>
     <App />
