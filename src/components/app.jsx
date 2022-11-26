@@ -1,5 +1,14 @@
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme();
+
 function App() {
-  return <h1>App</h1>;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+    </ThemeProvider>
+  );
 }
 
 export default App;
