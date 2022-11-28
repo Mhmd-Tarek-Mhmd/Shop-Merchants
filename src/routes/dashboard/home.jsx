@@ -9,7 +9,7 @@ function Home() {
   useDocumentTitle("Home");
 
   return (
-    <Box sx={{ flexGrow: 1, py: 8 }}>
+    <Box sx={{ py: 8 }}>
       <Container maxWidth={false}>
         <DashboardHome />
       </Container>
