@@ -1,0 +1,301 @@
+import { useState } from "preact/hooks";
+import { useTheme } from "@mui/material/styles";
+
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import TableFooter from "@mui/material/TableFooter";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import TableContainer from "@mui/material/TableContainer";
+import TablePagination from "@mui/material/TablePagination";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+
+function LatestOrders() {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const handleChangePage = (event, newPage) => setPage(newPage);
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  return (
+    <Paper sx={{ pt: 3 }}>
+      <Typography
+        id="table-label"
+        component="h2"
+        variant="h5"
+        sx={{ ml: 2, color: (theme) => theme.palette.primary.main }}
+      >
+        Latest Orders
+      </Typography>
+
+      <TableContainer>
+        <Table sx={{ minWidth: 700 }} aria-labelledby="table-label">
+          <TableHead>
+            <TableRow>
+              {labels.map((label) => (
+                <TableCell key={label} sx={{ textAlign: "center" }}>
+                  {label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row, i) => (
+              <TableRow key={i}>
+                {Object.values(row).map((r) => (
+                  <Cell dataCell={r} />
+                ))}
+              </TableRow>
+            ))}
+
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+
+          <TableFooter>
+            <TableRow
+              sx={{
+                ".MuiTablePagination-spacer": { display: "none" },
+                ".MuiTableCell-footer": { overflow: "unset", borderBottom: 0 },
+                ".MuiTablePagination-toolbar": {
+                  px: 0,
+                  justifyContent: "center",
+                },
+              }}
+            >
+              <TablePagination
+                page={page}
+                count={rows.length}
+                colSpan={labels.length}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handleChangePage}
+                ActionsComponent={TablePaginationActions}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                SelectProps={{
+                  native: true,
+                  inputProps: { "aria-label": "rows per page" },
+                }}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </Paper>
+  );
+}
+
+export default LatestOrders;
+
+const Cell = ({ dataCell }) => {
+  const isStatus =
+    dataCell === "delivered" ||
+    dataCell === "refunded" ||
+    dataCell === "pending";
+  const backgroundColor =
+    (dataCell === "delivered" && "success.main") ||
+    (dataCell === "refunded" && "error.main") ||
+    (dataCell === "pending" && "warning.main");
+
+  return (
+    <TableCell sx={{ textAlign: "center" }}>
+      {isStatus ? (
+        <Box
+          component="span"
+          sx={{
+            p: 1,
+            color: "#fff",
+            borderRadius: 4,
+            backgroundColor,
+            textTransform: "capitalize",
+          }}
+        >
+          {dataCell}
+        </Box>
+      ) : (
+        dataCell
+      )}
+    </TableCell>
+  );
+};
+const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
+  const theme = useTheme();
+  const handleFirstPageButtonClick = (event) => onPageChange(event, 0);
+  const handleBackButtonClick = (event) => onPageChange(event, page - 1);
+  const handleNextButtonClick = (event) => onPageChange(event, page + 1);
+  const handleLastPageButtonClick = (event) =>
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+
+  return (
+    <Box sx={{ flexShrink: 0 }}>
+      <IconButton
+        disabled={page === 0}
+        aria-label="first page"
+        onClick={handleFirstPageButtonClick}
+      >
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        disabled={page === 0}
+        aria-label="previous page"
+        onClick={handleBackButtonClick}
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+      <IconButton
+        aria-label="next page"
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+      <IconButton
+        aria-label="last page"
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+      >
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  );
+};
+
+const createData = (date, name, ship, payment, sale, status) => {
+  return { date, name, ship, payment, sale, status };
+};
+const labels = [
+  "Date",
+  "Name",
+  "Ship To",
+  "Payment Method",
+  "Sale Amount",
+  "Status",
+];
+const rows = [
+  createData(
+    "16 Mar, 2019",
+    "John Doe",
+    "city, state",
+    "VISA ⠀•••• 3719",
+    "$312.44",
+    "pending"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "Jane Doe",
+    "city, state",
+    "MC ⠀•••• 1253",
+    "$100.81",
+    "delivered"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "Jane Doe",
+    "city, state",
+    "VISA ⠀•••• 3719",
+    "$312.44",
+    "refunded"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "John Doe",
+    "city, state",
+    "AMEX ⠀•••• 2000",
+    "$100.81",
+    "pending"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "John Doe",
+    "city, state",
+    "VISA ⠀•••• 3719",
+    "$312.44",
+    "delivered"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "Jane Doe",
+    "city, state",
+    "AMEX ⠀•••• 2000",
+    "$100.81",
+    "delivered"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "John Doe",
+    "city, state",
+    "VISA ⠀•••• 3719",
+    "$312.44",
+    "pending"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "Jane Doe",
+    "city, state",
+    "MC ⠀•••• 1253",
+    "$100.81",
+    "delivered"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "Jane Doe",
+    "city, state",
+    "VISA ⠀•••• 3719",
+    "$312.44",
+    "refunded"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "John Doe",
+    "city, state",
+    "AMEX ⠀•••• 2000",
+    "$100.81",
+    "pending"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "John Doe",
+    "city, state",
+    "VISA ⠀•••• 3719",
+    "$312.44",
+    "delivered"
+  ),
+  createData(
+    "16 Mar, 2019",
+    "Jane Doe",
+    "city, state",
+    "AMEX ⠀•••• 2000",
+    "$100.81",
+    "delivered"
+  ),
+];
