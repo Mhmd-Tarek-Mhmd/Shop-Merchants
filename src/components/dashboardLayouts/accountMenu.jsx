@@ -53,7 +53,7 @@ function AccountMenu() {
         <Box sx={{ py: 1.5, px: 2 }}>
           <Typography variant="overline">Account</Typography>
           <Typography color="text.secondary" variant="body2">
-            John Doe
+            {user.displayName}
           </Typography>
         </Box>
         <MenuList
