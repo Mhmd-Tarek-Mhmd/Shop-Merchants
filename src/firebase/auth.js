@@ -1,6 +1,7 @@
 import {
   getAuth,
   signOut,
+  deleteUser,
   updateProfile,
   EmailAuthProvider,
   sendEmailVerification,
@@ -8,6 +9,7 @@ import {
   updateEmail as updateMail,
   signInWithEmailAndPassword,
   reauthenticateWithCredential,
+  updatePassword as updatePass,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
