@@ -58,7 +58,7 @@ function Sidebar({ open, onClose }) {
 
       <List>
         {items.map((item) => (
-          <Item item={item} key={item.title} />
+          <Item key={item.title} item={item} onClose={onClose} />
         ))}
       </List>
     </Drawer>
@@ -73,6 +73,7 @@ const Item = ({ item: { href, icon, title }, ...props }) => {
       {...props}
       href={href}
       component="a"
+      onClick={props.onClose}
       selected={href === location.pathname}
       sx={{
         mb: 1,
