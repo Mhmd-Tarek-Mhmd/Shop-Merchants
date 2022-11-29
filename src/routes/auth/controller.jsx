@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import { useDispatch } from "react-redux";
 
 import { add } from "../../store/actions";
@@ -12,7 +11,6 @@ import {
 } from "../../firebase";
 
 import Template from "./template";
-import ForgetPassword from "./forgetPassword";
 
 const setUsername = (user) => {
   const firstName = user.get("firstName");
@@ -22,8 +20,6 @@ const setUsername = (user) => {
 
 function Controller({ prefix, FormInputs }) {
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const signUpHook = useFireAuthRedux(signUp);
   const signInHook = useFireAuthRedux(signIn);
   const forgetPasswordHook = useFireAuthRedux(forgetPassword);
@@ -47,12 +43,9 @@ function Controller({ prefix, FormInputs }) {
   };
 
   const handleForgetSubmit = (e) => {
-    e.preventDefault();
-    const success = {
-      cb: () => setIsModalOpen(false),
+    forgetPasswordHook([e.currentTarget.elements.email.value], [], {
       getMsg: () => "An email sent to your inbox to reset your password",
-    };
-    forgetPasswordHook([e.currentTarget.elements.email.value], [], success);
+    });
   };
 
   return (
@@ -60,16 +53,8 @@ function Controller({ prefix, FormInputs }) {
       <Template
         prefix={prefix}
         handleSubmit={handleSubmit}
-        formInputs={<FormInputs setIsModalOpen={setIsModalOpen} />}
+        formInputs={<FormInputs handleForgetSubmit={handleForgetSubmit} />}
       />
-
-      {prefix === "in" && (
-        <ForgetPassword
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          handleModalSubmit={handleForgetSubmit}
-        />
-      )}
     </>
   );
 }
