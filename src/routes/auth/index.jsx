@@ -39,7 +39,7 @@ function Auth() {
           }}
         >
           <Tabs isSignUp={isSignUp} setIsSignUp={setIsSignUp} />
-          {isSignUp ? <SignUp /> : <SignIn />}
+          {isSignUp ? <SignUp setIsSignUp={setIsSignUp} /> : <SignIn />}
         </Box>
       </Box>
     </>

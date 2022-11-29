@@ -18,7 +18,7 @@ const setUsername = (user) => {
   updateName(`${firstName} ${lastName}`);
 };
 
-function Controller({ prefix, FormInputs }) {
+function Controller({ prefix, FormInputs, setIsSignUp }) {
   const dispatch = useDispatch();
   const signUpHook = useFireAuthRedux(signUp);
   const signInHook = useFireAuthRedux(signIn);
@@ -32,7 +32,10 @@ function Controller({ prefix, FormInputs }) {
     const success = {
       cb: (results) =>
         prefix === "up"
-          ? validateEmail().then(() => setUsername(data))
+          ? validateEmail().then(() => {
+              setUsername(data);
+              setIsSignUp(false);
+            })
           : dispatch(add(results)),
       getMsg: () =>
         prefix === "up"

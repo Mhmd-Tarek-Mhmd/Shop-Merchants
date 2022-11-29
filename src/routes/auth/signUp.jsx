@@ -3,8 +3,8 @@ import Grid from "@mui/material/Grid";
 import Controller from "./controller";
 import Input from "../../components/input";
 
-function SignUp() {
-  return <Controller prefix="up" FormInputs={Form} />;
+function SignUp({ setIsSignUp }) {
+  return <Controller prefix="up" FormInputs={Form} setIsSignUp={setIsSignUp} />;
 }
 
 export default SignUp;
