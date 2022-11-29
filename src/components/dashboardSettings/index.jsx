@@ -1,60 +1,44 @@
-import { useState } from "preact/hooks";
-import { useSelector } from "react-redux";
-
-import { update } from "../../store/actions";
-import { updateEmail, updatePassword } from "../../firebase";
+import { update, clear } from "../../store/actions";
+import { updateEmail, updatePassword, deleteProfile } from "../../firebase";
 
 import Slot from "./slot";
-import DangerZone from "./dangerZone";
-import ReAuthModal from "./reAuthModal";
-
-let settingHandler, handlerArgs;
 
 function DashboardSettings() {
-  const user = useSelector((state) => state.authedUser);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const closeModalHandler = () => setIsModalOpen(false);
-  const slotHandler = (handler, args = []) => {
-    settingHandler = handler;
-    handlerArgs = args;
-    setIsModalOpen(true);
-  };
-  const reAuthHandler = () => {
-    settingHandler(...handlerArgs);
-    let reAuthTimer = setTimeout(() => {
-      closeModalHandler();
-      clearTimeout(reAuthTimer);
-    }, 100);
-  };
+  const getProps = (authMethod, storeAction) => ({
+    authMethod,
+    storeAction,
+  });
 
   return (
     <>
-      <Slots slotHandler={slotHandler} />
-      <ReAuthModal
-        isModalOpen={isModalOpen}
-        provider={user.providerId}
-        reAuthHandler={reAuthHandler}
-        closeModalHandler={closeModalHandler}
-      />
+      <Slot settingName="email" {...getProps(updateEmail, update)} />
+      <Slot settingName="password" {...getProps(updatePassword, null)} />
+      <DangerZone {...getProps(deleteProfile, clear)} />
     </>
   );
 }
 
 export default DashboardSettings;
 
-const Slots = ({ slotHandler }) => {
-  const getProps = (authMethod, isStoreAction = true) => ({
-    authMethod,
-    slotHandler,
-    ...(isStoreAction && { storeAction: update }),
-  });
-
+const DangerZone = ({ storeAction, authMethod }) => {
   return (
-    <>
-      <Slot settingName="email" {...getProps(updateEmail)} />
-      <Slot settingName="password" {...getProps(updatePassword, false)} />
-      <DangerZone slotHandler={slotHandler} />
-    </>
+    <Slot
+      storeAction={storeAction}
+      authMethod={authMethod}
+      msg="Profile deleted successfully"
+      color="error"
+      sx={{ mt: 10 }}
+      actionTxt="Delete"
+      title="Danger Zone"
+      settingViews={
+        <>
+          <strong>Delete account</strong>
+          <p style={{ margin: "2px 0" }}>
+            Once you deleted an account, there is no going back. Please be
+            certain.
+          </p>
+        </>
+      }
+    />
   );
 };

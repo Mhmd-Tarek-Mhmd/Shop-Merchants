@@ -1,6 +1,8 @@
 import { useState } from "preact/hooks";
+import { useDispatch } from "react-redux";
 
 import { useFireAuthRedux } from "../../hooks";
+import { openDialog, closeDialog } from "../../store/actions";
 
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -8,29 +10,52 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 import Input from "../input";
+import ReAuth from "./reAuth";
 
-function Slot({ settingName, slotHandler, authMethod, storeAction }) {
+function Slot({
+  sx,
+  msg,
+  title,
+  color,
+  actionTxt,
+  authMethod,
+  settingName,
+  storeAction,
+  settingViews,
+}) {
+  const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const settingHook = useFireAuthRedux(authMethod, storeAction);
 
+  const reAuthHandler = () => {
+    const success = {
+      cb: () => dispatch(closeDialog()),
+      getMsg: () => msg || `${settingName} changed successfully`,
+    };
+    settingHook([value], [{ [settingName]: value }], success);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const args = [
-      [value],
-      [{ [settingName]: value }],
-      {
-        getMsg: () => `${settingName} changed successfully`,
-      },
-    ];
-
-    slotHandler(settingHook, args);
+    dispatch(
+      openDialog({
+        title: "Are you sure?",
+        desc: "Please enter your password to confirm",
+        children: <ReAuth reAuthHandler={reAuthHandler} />,
+      })
+    );
   };
 
   return (
     <Views
+      sx={sx}
       value={value}
+      color={color}
+      title={title}
       setValue={setValue}
+      actionTxt={actionTxt}
       settingName={settingName}
+      settingViews={settingViews}
       actionHandler={handleSubmit}
     />
   );
