@@ -24,12 +24,11 @@ function useFireAuthRedux(fireAuthMethod, reduxAction) {
 
   return (methodArgs = [], actionArgs = [], success, error) => {
     dispatch(openBackdrop());
-
     fireAuthMethod(...methodArgs)
       .then((results) => {
-        const msg = success?.getMsg();
+        const msg = success.getMsg ? success.getMsg() : "Success";
         reduxAction && dispatch(reduxAction(...actionArgs));
-        callback("success", msg || "Success", success?.cb, results);
+        callback("success", msg, success?.cb, results);
       })
       .catch((err) => {
         console.log(err);
