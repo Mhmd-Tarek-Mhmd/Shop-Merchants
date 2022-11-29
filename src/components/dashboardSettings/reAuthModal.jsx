@@ -40,7 +40,6 @@ const ReAuth = ({ reAuthHandler }) => {
     e.preventDefault();
     reAuthHook([e.currentTarget.elements[0].value], [], {
       cb: reAuthHandler,
-      getMsg: () => "",
     });
   };
 
