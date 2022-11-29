@@ -9,14 +9,17 @@ const initialState = sessionStorage.authedUser
   : null;
 
 const userFormat = ({
+  products,
   providerId,
-  user: { displayName, email, emailVerified, photoURL },
+  user: { displayName, email, emailVerified, photoURL, uid },
 }) => ({
+  uid,
+  email,
+  products,
+  photoURL,
   providerId,
   displayName,
-  email,
   emailVerified,
-  photoURL,
 });
 
 const authedUserSlice = createSlice({

@@ -9,7 +9,11 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredPaths: ["authedUser", "dialog"],
-        ignoredActions: ["authedUser/add", "dialog/openDialog"],
+        ignoredActions: [
+          "authedUser/add",
+          "authedUser/update",
+          "dialog/openDialog",
+        ],
       },
     }).prepend(middleware),
 });
