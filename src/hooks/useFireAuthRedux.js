@@ -27,9 +27,9 @@ function useFireAuthRedux(fireAuthMethod, reduxAction) {
 
     fireAuthMethod(...methodArgs)
       .then((results) => {
-        const msg = success?.getMsg() || "Success";
+        const msg = success?.getMsg();
         reduxAction && dispatch(reduxAction(...actionArgs));
-        callback("success", msg, success?.cb, results);
+        callback("success", msg || "Success", success?.cb, results);
       })
       .catch((err) => {
         console.log(err);
@@ -38,9 +38,8 @@ function useFireAuthRedux(fireAuthMethod, reduxAction) {
           errorMessages[err.code] ||
           defaultErrorMessages(err.code);
         callback("error", msg, error?.cb, err);
-      });
-
-    dispatch(closeBackdrop());
+      })
+      .finally(() => dispatch(closeBackdrop()));
   };
 }
 
