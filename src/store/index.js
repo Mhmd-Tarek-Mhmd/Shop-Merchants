@@ -8,8 +8,8 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredPaths: ["authedUser"],
-        ignoredActions: ["authedUser/add"],
+        ignoredPaths: ["authedUser", "dialog"],
+        ignoredActions: ["authedUser/add", "dialog/openDialog"],
       },
     }).prepend(middleware),
 });
