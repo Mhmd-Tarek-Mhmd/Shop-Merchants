@@ -60,7 +60,6 @@ const ImageUploader = ({ user }) => {
   const changeAvatarHook = useFireAuthRedux(updateAvatar);
 
   const handleChange = (e) => {
-    console.log(user.uid);
     if (e.target.files.length) {
       changeAvatarHook(
         [
