@@ -13,12 +13,11 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
-import { getUploadImageURL } from "./storage";
+import { getUploadAvatarURL } from "./storage";
 
 const auth = getAuth();
 const getCredential = (password) =>
   EmailAuthProvider.credential(auth.currentUser.email, password);
-export const userUID = auth.currentUser?.uid;
 
 /*
   [1] Auth/Create methods
@@ -45,8 +44,8 @@ export const reAuth = (password) =>
 
 const updateUser = (obj) => updateProfile(auth.currentUser, obj);
 
-export const updateAvatar = async (file, cb) => {
-  const photoURL = await getUploadImageURL("avatar", file);
+export const updateAvatar = async (merchantID, file, cb) => {
+  const photoURL = await getUploadAvatarURL(merchantID, file);
   updateUser({ photoURL });
   cb(photoURL);
 };

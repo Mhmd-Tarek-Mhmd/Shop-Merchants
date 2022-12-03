@@ -1,4 +1,4 @@
-import { addProduct } from "./db";
+import { addProduct, getProducts, updateProduct, deleteProduct } from "./db";
 import {
   signUp,
   signIn,
@@ -15,6 +15,9 @@ import {
 
 export {
   addProduct,
+  getProducts,
+  updateProduct,
+  deleteProduct,
   signUp,
   signIn,
   logout,

@@ -47,7 +47,7 @@ function InfoCard({ user }) {
 
       <Divider />
       <CardActions>
-        <ImageUploader />
+        <ImageUploader user={user} />
       </CardActions>
     </Card>
   );
@@ -55,14 +55,19 @@ function InfoCard({ user }) {
 
 export default InfoCard;
 
-const ImageUploader = () => {
+const ImageUploader = ({ user }) => {
   const dispatch = useDispatch();
   const changeAvatarHook = useFireAuthRedux(updateAvatar);
 
   const handleChange = (e) => {
+    console.log(user.uid);
     if (e.target.files.length) {
       changeAvatarHook(
-        [e.target.files[0], (photoURL) => dispatch(update({ photoURL }))],
+        [
+          user.uid,
+          e.target.files[0],
+          (photoURL) => dispatch(update({ photoURL })),
+        ],
         [],
         { getMsg: () => "Avatar changed successfully" }
       );

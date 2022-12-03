@@ -6,6 +6,7 @@ import {
   signUp,
   signIn,
   updateName,
+  getProducts,
   validateEmail,
   forgetPassword,
 } from "../../firebase";
@@ -30,13 +31,17 @@ function Controller({ prefix, FormInputs, setIsSignUp }) {
     const data = new FormData(e.currentTarget);
     const signHook = prefix === "up" ? signUpHook : signInHook;
     const success = {
-      cb: (results) =>
-        prefix === "up"
-          ? validateEmail().then(() => {
-              setUsername(data);
-              setIsSignUp(false);
-            })
-          : dispatch(add(results)),
+      cb: async (results) => {
+        if (prefix === "up") {
+          validateEmail().then(() => {
+            setUsername(data);
+            setIsSignUp(false);
+          });
+        } else {
+          const products = await getProducts(results.user.uid);
+          dispatch(add({ ...results, products }));
+        }
+      },
       getMsg: () =>
         prefix === "up"
           ? "A validation email sent to your inbox"
