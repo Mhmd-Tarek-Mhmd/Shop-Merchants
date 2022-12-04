@@ -18,7 +18,7 @@ function Auth() {
       <Nav />
       <Box
         sx={{
-          minHeight: 500,
+          minHeight: 700,
           height: "100vh",
           display: "grid",
           placeItems: "center",
@@ -29,9 +29,10 @@ function Auth() {
         <Box
           sx={{
             px: 3,
+            mx: "auto",
             pb: "40px",
             pt: "100px",
-            width: "100%",
+            width: "90%",
             maxWidth: 500,
             borderRadius: 1,
             position: "relative",

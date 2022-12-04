@@ -22,7 +22,6 @@ function Template({ prefix, handleSubmit, formInputs }) {
             </Link>{" "}
             and our{" "}
             <Link component="button" sx={{ fontSize: "inherit" }}>
-              {" "}
               Privacy Policy
             </Link>
             .
