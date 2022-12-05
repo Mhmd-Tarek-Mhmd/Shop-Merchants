@@ -39,16 +39,17 @@ export const getUploadThumbnailURL = async (
   );
   return url;
 };
-export const getUploadImagesURLs = (merchantID, productID, imagesFiles) => {
-  let images = [];
-  imagesFiles.forEach(async (file, i) => {
-    const url = await getUploadImageURL(
-      merchantID,
-      getProductsPath(productID, i),
-      file
-    );
+export const getUploadImagesURLs = async (
+  merchantID,
+  productID,
+  imagesFiles
+) => {
+  const images = await Promise.all(
+    imagesFiles.map(
+      async (file, i) =>
+        await getUploadImageURL(merchantID, getProductsPath(productID, i), file)
+    )
+  );
 
-    images = [...images, url];
-  });
   return images;
 };

@@ -22,11 +22,11 @@ const getProductDoc = (productID) => doc(db, "products", productID);
 export const addProduct = (merchantID, productObj, cb) => {
   const productDoc = doc(productsRef);
   const { thumbnail: thumbnailFile, images: imagesFiles } = productObj;
-  const primaryProd = { ...productObj, thumbnail: "", images: "" };
+  const primaryProd = { ...productObj, thumbnail: "", images: [] };
 
   return setDoc(productDoc, primaryProd).then(() => {
     getDoc(productDoc).then(async ({ id }) => {
-      const images = getUploadImagesURLs(merchantID, id, imagesFiles);
+      const images = await getUploadImagesURLs(merchantID, id, imagesFiles);
       const thumbnail = await getUploadThumbnailURL(
         merchantID,
         id,
@@ -61,7 +61,11 @@ export const updateProduct = (product, cb) => {
     const { thumbnail: thumbnailFile, images: imagesFiles } = prod.data();
     const images =
       typeof product.images[0] === "object"
-        ? getUploadImagesURLs(product.merchant, product.id, product.images)
+        ? await getUploadImagesURLs(
+            product.merchant,
+            product.id,
+            product.images
+          )
         : imagesFiles;
     const thumbnail =
       typeof product.thumbnail === "object"
