@@ -7,7 +7,7 @@ import DashboardProducts from "../../components/dashboardProducts";
 function Products() {
   return (
     <Box sx={{ py: 8 }}>
-      <Container maxWidth="md">
+      <Container maxWidth={false}>
         <Typography
           component="h1"
           variant="h4"

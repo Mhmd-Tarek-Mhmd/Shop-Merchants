@@ -11,7 +11,7 @@ function ProductsGrid({ products, stateProducts, handleDialogOpen }) {
       <Box sx={{ pt: 4 }}>
         <Grid container spacing={3}>
           {products.map((product) => (
-            <Grid item key={product.id} lg={4} md={6} xs={12}>
+            <Grid item key={product.id} md={4} sm={6} xs={12}>
               <ProductCard
                 product={product}
                 products={products}
