@@ -7,14 +7,15 @@ import { openDialog, closeDialog, update } from "../../store/actions";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import Toolbar from "@mui/material/Toolbar";
 import Divider from "@mui/material/Divider";
+import CardMedia from "@mui/material/CardMedia";
 import EditIcon from "@mui/icons-material/Edit";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import OpenInNew from "@mui/icons-material/OpenInNew";
+import DialogActions from "@mui/material/DialogActions";
 
 function ProductCard({ product, handleDialogOpen }) {
   const dispatch = useDispatch();
@@ -32,15 +33,14 @@ function ProductCard({ product, handleDialogOpen }) {
 
   return (
     <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <CardMedia
+        height="100"
+        component="img"
+        alt={product.title}
+        image={product.thumbnail}
+        sx={{ mx: "auto", pt: "15px", width: "auto", maxWidth: "100%" }}
+      />
       <CardContent>
-        <Box
-          component="img"
-          src={product.thumbnail}
-          sx={{ display: "flex", justifyContent: "center", pb: 3 }}
-        >
-          {/* <Avatar alt="Product" src={product.thumbnail} variant="square" /> */}
-        </Box>
-
         <Typography
           variant="h5"
           gutterBottom
@@ -57,10 +57,9 @@ function ProductCard({ product, handleDialogOpen }) {
       <Box sx={{ flexGrow: 1 }} />
       <Divider />
 
-      <Toolbar
-        sx={{ py: 1, columnGap: 2, flexWrap: "wrap", alignItems: "center" }}
-      >
+      <CardActions>
         <Button
+          size="small"
           target="__blank"
           endIcon={<OpenInNew />}
           href={`https://e-shop-aa698.web.app/product/${product.id}`}
@@ -69,6 +68,7 @@ function ProductCard({ product, handleDialogOpen }) {
         </Button>
         <Box sx={{ flex: 1 }} />
         <Button
+          size="small"
           sx={{ color: "#009688" }}
           startIcon={<EditIcon />}
           onClick={() => handleDialogOpen(product)}
@@ -76,13 +76,14 @@ function ProductCard({ product, handleDialogOpen }) {
           Edit
         </Button>
         <Button
+          size="small"
           color="error"
           startIcon={<DeleteIcon />}
           onClick={handleErrorDialogOpen}
         >
           Delete
         </Button>
-      </Toolbar>
+      </CardActions>
     </Card>
   );
 }
@@ -102,22 +103,13 @@ const Confirm = ({ id, onClose }) => {
   };
 
   return (
-    <Toolbar
-      disableGutters
-      sx={{
-        top: 14,
-        ml: "auto",
-        width: "200px",
-        position: "relative",
-        justifyContent: "space-between",
-      }}
-    >
+    <DialogActions>
       <Button color="error" onClick={handleDelete}>
         Confirm
       </Button>
       <Button variant="contained" disableElevation onClick={onClose}>
         Cancel
       </Button>
-    </Toolbar>
+    </DialogActions>
   );
 };
