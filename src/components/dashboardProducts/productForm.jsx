@@ -67,11 +67,18 @@ function ProductForm({ propsValues, stateProducts, setProducts }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const getRandom = (max) => Math.floor(Math.random() * max);
+    const newProduct = {
+      ...values,
+      reviews: [],
+      rating: { rate: getRandom(5), count: getRandom(100) },
+    };
+
     propsValues
       ? productHook([values, cb], [], {
           getMsg: () => "Product edited successfully",
         })
-      : productHook([uid, { ...values, reviews: [] }, cb], [], {
+      : productHook([uid, newProduct, cb], [], {
           getMsg: () => "Product added successfully",
         });
   };
