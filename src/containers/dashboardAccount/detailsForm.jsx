@@ -38,8 +38,9 @@ function DetailsForm({ user }) {
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
               <TextField
-                fullWidth
                 required
+                fullWidth
+                size="small"
                 name="firstName"
                 label="First name"
                 variant="outlined"
@@ -49,8 +50,9 @@ function DetailsForm({ user }) {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                fullWidth
                 required
+                fullWidth
+                size="small"
                 name="lastName"
                 label="Last name"
                 variant="outlined"
@@ -61,6 +63,7 @@ function DetailsForm({ user }) {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
+                size="small"
                 type="number"
                 variant="outlined"
                 label="Phone Number"

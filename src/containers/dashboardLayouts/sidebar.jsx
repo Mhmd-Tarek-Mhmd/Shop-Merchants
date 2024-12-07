@@ -9,7 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 
-import Logo from "../logo";
+import Logo from "../../components/logo";
 
 const items = [
   {

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-import DashboardAccount from "../../components/dashboardAccount";
+import DashboardAccount from "../../containers/dashboardAccount";
 
 function Account() {
   useDocumentTitle("Account");

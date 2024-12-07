@@ -1,9 +1,9 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import Routes from "../routes";
-import Dialog from "./dialog";
-import Feedback from "./feedback";
+import Routes from "./routes";
+import Dialog from "./components/dialog";
+import Feedback from "./components/feedback";
 
 const theme = createTheme();
 

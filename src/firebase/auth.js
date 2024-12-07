@@ -8,12 +8,12 @@ import {
   sendPasswordResetEmail,
   updateEmail as updateMail,
   signInWithEmailAndPassword,
-  reauthenticateWithCredential,
   updatePassword as updatePass,
+  reauthenticateWithCredential,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
-import { getUploadAvatarURL } from "./storage";
+import { getUploadAvatarURL, removeAvatar } from "./storage";
 
 const auth = getAuth();
 const getCredential = (password) =>
@@ -57,4 +57,7 @@ export const updateEmail = (newEmail) => updateMail(auth.currentUser, newEmail);
 export const updatePassword = (newPassword) =>
   updatePass(auth.currentUser, newPassword);
 
-export const deleteProfile = () => deleteUser(auth.currentUser);
+export const deleteProfile = async () => {
+  await removeAvatar(auth.currentUser.uid);
+  return deleteUser(auth.currentUser);
+};

@@ -1,4 +1,2 @@
-import useDocumentTitle from "./useDocumentTitle";
-import useFireAuthRedux from "./useFireAuthRedux";
-
-export { useDocumentTitle, useFireAuthRedux };
+export { default as useDocumentTitle } from "./useDocumentTitle";
+export { default as useFireAuthRedux } from "./useFireAuthRedux";

@@ -3,7 +3,7 @@ import { useDocumentTitle } from "../../hooks";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
-import DashboardHome from "../../components/dashboardHome";
+import DashboardHome from "../../containers/dashboardHome";
 
 function Home() {
   useDocumentTitle("Home");

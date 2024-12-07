@@ -5,7 +5,7 @@ import Account from "./account";
 import Settings from "./settings";
 import Products from "./products";
 import NotFound from "./notFound";
-import DashboardLayouts from "../../components/dashboardLayouts";
+import DashboardLayouts from "../../containers/dashboardLayouts";
 
 function Dashboard() {
   return (
