@@ -5,12 +5,12 @@ import Account from "./account";
 import Settings from "./settings";
 import Products from "./products";
 import NotFound from "./notFound";
-import DashboardLayouts from "../../components/dashboardLayouts";
+import DashboardLayout from "../../layouts/dashboard";
 
 function Dashboard() {
   return (
     <>
-      <DashboardLayouts />
+      <DashboardLayout />
       <Router>
         <Home path="/" />
         <Account path="/account" />

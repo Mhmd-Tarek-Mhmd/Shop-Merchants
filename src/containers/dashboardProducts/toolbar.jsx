@@ -24,6 +24,7 @@ function Toolbar({ setProducts, stateProducts, handleDialogOpen }) {
         }}
       >
         <TextField
+          size="small"
           sx={{ flex: 1 }}
           variant="outlined"
           onChange={handleChange}

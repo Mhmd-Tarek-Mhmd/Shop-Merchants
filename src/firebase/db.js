@@ -12,27 +12,27 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+import {
+  getUploadImagesURLs,
+  getUploadThumbnailURL,
+  getRemoveProductImages,
+} from "./storage";
 import { shopApp } from "./apps";
-import { getUploadThumbnailURL, getUploadImagesURLs } from "./storage";
 
 const db = getFirestore(shopApp);
 const productsRef = collection(db, "products");
 const getProductDoc = (productID) => doc(db, "products", productID);
 
-export const addProduct = (merchantID, productObj, cb) => {
+export const addProduct = (merchantID, product, cb) => {
   const productDoc = doc(productsRef);
-  const { thumbnail: thumbnailFile, images: imagesFiles } = productObj;
-  const primaryProd = { ...productObj, thumbnail: "", images: [] };
+  const { thumbnail: thumbnailFile, images: imagesFiles } = product;
+  const primaryProd = { ...product, thumbnail: "", images: [] };
 
   return setDoc(productDoc, primaryProd).then(() => {
     getDoc(productDoc).then(async ({ id }) => {
-      const images = await getUploadImagesURLs(merchantID, id, imagesFiles);
-      const thumbnail = await getUploadThumbnailURL(
-        merchantID,
-        id,
-        thumbnailFile
-      );
-      const product = Object.assign({}, productObj, {
+      const images = await getUploadImagesURLs(id, imagesFiles);
+      const thumbnail = await getUploadThumbnailURL(id, thumbnailFile);
+      const product = Object.assign({}, product, {
         id,
         images,
         thumbnail,
@@ -61,19 +61,11 @@ export const updateProduct = (product, cb) => {
     const { thumbnail: thumbnailFile, images: imagesFiles } = prod.data();
     const images =
       typeof product.images[0] === "object"
-        ? await getUploadImagesURLs(
-            product.merchant,
-            product.id,
-            product.images
-          )
+        ? await getUploadImagesURLs(product.id, product.images)
         : imagesFiles;
     const thumbnail =
       typeof product.thumbnail === "object"
-        ? await getUploadThumbnailURL(
-            product.merchant,
-            product.id,
-            product.thumbnail
-          )
+        ? await getUploadThumbnailURL(product.id, product.thumbnail)
         : thumbnailFile;
 
     const productObj = { ...product, images, thumbnail };
@@ -81,7 +73,8 @@ export const updateProduct = (product, cb) => {
   });
 };
 
-export const deleteProduct = (productID) => {
+export const deleteProduct = async (productID) => {
+  await getRemoveProductImages(productID);
   const productDoc = getProductDoc(productID);
   return deleteDoc(productDoc);
 };

@@ -9,8 +9,8 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-import Input from "../input";
 import ReAuth from "./reAuth";
+import Input from "../../components/input";
 
 function Slot({
   sx,

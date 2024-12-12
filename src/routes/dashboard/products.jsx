@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-import DashboardProducts from "../../components/dashboardProducts";
+import DashboardProducts from "../../containers/dashboardProducts";
 
 function Products() {
   return (

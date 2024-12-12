@@ -4,7 +4,7 @@ import { useFireAuthRedux } from "../../hooks";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import Input from "../input";
+import Input from "../../components/input";
 
 function ReAuth({ reAuthHandler }) {
   const reAuthHook = useFireAuthRedux(reAuth);

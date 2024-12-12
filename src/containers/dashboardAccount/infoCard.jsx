@@ -17,7 +17,7 @@ import CardContent from "@mui/material/CardContent";
 
 function InfoCard({ user }) {
   return (
-    <Card>
+    <Card sx={{ height: 1, display: "grid" }}>
       <CardContent>
         <Box
           sx={{
@@ -45,7 +45,7 @@ function InfoCard({ user }) {
         </Box>
       </CardContent>
 
-      <Divider />
+      <Divider sx={{ marginTop: 2.5 }} />
       <CardActions>
         <ImageUploader user={user} />
       </CardActions>

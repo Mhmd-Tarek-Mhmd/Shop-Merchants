@@ -3,7 +3,7 @@ import { useState } from "preact/hooks";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
 
-const DashboardLayouts = () => {
+const DashboardLayout = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -14,4 +14,4 @@ const DashboardLayouts = () => {
   );
 };
 
-export default DashboardLayouts;
+export default DashboardLayout;
